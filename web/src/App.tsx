@@ -1,14 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 
+// JSX: Sintaxe de XML dentro do JavScript
+
+import Header from './Header'
+
 function App() {
+  const [counter, setCounter ] = useState(0); // [valor do estado, função p atualizar o valor do estado]
+
+  function handleButtonClick(){
+    setCounter(counter + 1)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>Hello World</h1>
-      </header>
+    <div>
+      <Header title="Hello" />
+    <h1>{counter}</h1>
+    <button type="button" onClick={handleButtonClick}>Aumentar</button>
     </div>
   );
 }
