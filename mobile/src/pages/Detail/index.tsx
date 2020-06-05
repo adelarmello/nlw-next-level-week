@@ -2,7 +2,7 @@ import React from 'react';
 import { Feather as Icon, FontAwesome } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
-
+import Constants from  'expo-constants';
 import {  RectButton } from 'react-native-gesture-handler'
  
 const Detail = () => {
@@ -21,8 +21,8 @@ const Detail = () => {
 
         <Image style={styles.pointImage} source={{ uri: 'https://images.unsplash.com/photo-1565061828011-282424b9ab40?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=350&q=60' }} />
 
-        <Text style={styles.pointName} >Mercado do João </Text>
-        <Text style={styles.pointItems} >Lâmpada, Óleo de cozinha</Text>
+        <Text style={styles.pointName} >Mercado do João</Text>
+        <Text style={styles.pointItems} >Lâmpada, óleo de cozinha</Text>
 
         <View style={styles.address}>
             <Text style={styles.addressTitle}>Endereço:</Text>
@@ -46,11 +46,14 @@ const Detail = () => {
 };
 
 
+
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 32,
-    paddingTop: 20,
+    paddingTop: 20 + Constants.statusBarHeight,
   },
 
   pointImage: {
@@ -97,7 +100,6 @@ const styles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
     borderColor: '#999',
     paddingVertical: 20,
-    paddingBottom: 20,
     paddingHorizontal: 32,
     flexDirection: 'row',
     justifyContent: 'space-between'
