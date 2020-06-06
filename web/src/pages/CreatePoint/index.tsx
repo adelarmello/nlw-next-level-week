@@ -151,7 +151,7 @@ const CreatePoint = () => {
 
         <Link to='/'>
           <FiArrowLeft />
-          Voltar para o iníciop
+          Voltar para o início
         </Link>
       </header>
 
@@ -176,7 +176,7 @@ const CreatePoint = () => {
             
             <div className="field">
               <label htmlFor="whatsapp"> Whatsapp </label>
-              <input type="text" name="whatsapp" id="whatsapp" onChange={handleInputChange} />
+              <input placeholder="55 55 99999 9999" type="text" maxLength={13} minLength={13}  name="whatsapp" id="whatsapp" onChange={handleInputChange} />
             </div>
           </div>
 
@@ -200,7 +200,7 @@ const CreatePoint = () => {
             <div className="field">
               <label htmlFor="uf">Estado (UF)</label>
               <select name="uf" id="uf" value={selectedUf} onChange={handleSelectUf} >
-                <option value="0">Selecione uma UF</option>
+                <option value="0">Selecione um estado</option>
                 {ufs.map(uf => (
                   <option key={uf} value={uf}> {uf} </option>
                 ))}
@@ -209,7 +209,7 @@ const CreatePoint = () => {
             <div className="field">
               <label htmlFor="city">Cidade</label>
               <select name="city" id="city" value={selectedCity} onChange={handleSelectCity}>
-                <option value="0">Selecione uma Cidade</option>
+                <option value="0">Selecione uma cidade</option>
                 {cities.map(city => (
                   <option key={city} value={city}> {city} </option>
                 ))}

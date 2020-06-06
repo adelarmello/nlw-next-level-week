@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Constants  from 'expo-constants';
 import { Feather as Icon } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, Alert} from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { SvgUri } from 'react-native-svg';
@@ -22,6 +22,11 @@ interface Point {
   longitude: number;
 }
 
+interface Params {
+  uf: string;
+  city: string;
+}
+
 const Points = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]); //ID de cada item
@@ -30,6 +35,9 @@ const Points = () => {
   const [initialPosition, setInitialPosition] = useState<[number, number]>([0,0,]);
 
   const navigation = useNavigation();
+  const route = useRoute();
+
+  const routeParams = route.params as Params;
 
   useEffect(() => {
     async function loadPosition() {
@@ -65,15 +73,15 @@ const Points = () => {
     api
       .get('points', {
         params: {
-          city: 'Rodeio Boinito',
-          uf: 'RS',
-          items: [1,2],
+          city: routeParams.city,
+          uf: routeParams.uf,
+          items: selectedItems,
         }
       })
       .then((response) => {
         setPoints(response.data);
       });
-  }, []);
+  }, [selectedItems]);
 
 
 
@@ -94,7 +102,7 @@ const Points = () => {
 
       setSelectedItems(filteredItems);
     }else {
-     setSelectedItems([ ...selectedItems, id ]);
+      setSelectedItems([ ...selectedItems, id ]);
     }
   }
 
@@ -143,8 +151,8 @@ const Points = () => {
      </View>
       <View style={styles.itemsContainer}>
         <ScrollView horizontal 
-        showsHorizontalScrollIndicator={false} 
-        contentContainerStyle={{ paddingHorizontal:20 }}
+          showsHorizontalScrollIndicator={false} 
+          contentContainerStyle={{ paddingHorizontal:20 }}
         >
           {items.map(item => (
             <TouchableOpacity 
@@ -165,8 +173,6 @@ const Points = () => {
    </>
   );
 };
-
-
 
 const styles = StyleSheet.create({
   container: {
