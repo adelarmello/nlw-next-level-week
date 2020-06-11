@@ -48,14 +48,14 @@ const Detail = () => {
 
   const handleComposeMail = () => {
     MailComposer.composeAsync({
-      subject: 'Interesse na coleta de resíduos',
+      subject: 'Estou entrando em contato sobre a coleta de resíduos...',
       recipients: [data.point.email],
     });
   };
 
   const handleWhatsapp = () => {
     Linking.openURL(
-      `whatsapp://send?phone=${data.point.whatsapp}&text=Tenho interesse sobre coleta de resíduos`,
+      `whatsapp://send?phone=${data.point.whatsapp}&text=Estou entrando em contato sobre a coleta de resíduos...`
     );
   };
 
@@ -73,20 +73,25 @@ const Detail = () => {
         <Image style={styles.pointImage} 
           source={{ uri: data.point.image_url }}
         />
-        <Text style={styles.pointName}>
-          {data.point.name}
-        </Text>
-        <Text style={styles.pointItems}>
-          {data.items.map(item => item.title).join(',')}
-        </Text>
+        <Text style={styles.pointName}>{data.point.name}</Text>
 
+        <View style={styles.address}>
+            <Text style={styles.addressTitle}>Itens recolhidos:</Text>
+            <Text style={styles.pointItems}>
+              {data.items.map(item => item.title).join(', ')}{'.'}
+            </Text>
+        </View>
         <View style={styles.address}>
             <Text style={styles.addressTitle}>Endereço:</Text>
             <Text style={styles.addressContent}>
-              {data.point.city}, {data.point.uf}
+              {data.point.city}, {data.point.uf}{'.'}
             </Text>
         </View>
+        <View style={styles.address}>
+            <Text style={styles.addressTitle}>Entrar em contato:</Text>
+        </View>
       </View>
+
 
       <View style={styles.footer}>
         <RectButton style={styles.button} onPress={handleWhatsapp}>
@@ -102,10 +107,6 @@ const Detail = () => {
     </SafeAreaView>
   );
 };
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
 
   address: {
-    marginTop: 32,
+    marginTop: 30,
   },
   
   addressTitle: {

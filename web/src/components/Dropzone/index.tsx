@@ -31,7 +31,7 @@ const Dropzone: React.FC<Props> = ({ onFileUploaded }) => {
       { selectedFileUrl 
         ? <img  src={selectedFileUrl} alt="Point" />
         : (
-          <p><FiUpload/>Imagem do estabelecimento</p>
+          <p><FiUpload/>Clique aqui ou arraste uma imagem do estabelecimento.</p>
         )
       }
 

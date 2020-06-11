@@ -6,12 +6,11 @@ import axios from 'axios';
 import { LeafletMouseEvent } from 'leaflet';
 import api from '../../services/api';
 import Dropzone from '../../components/Dropzone';
-
 import './styles.css';
 import logo from '../../assets/logo.svg';
 
-// Sempre que criar um estado pra um array ou objeto, 
-// precisamos informar manualmente o tipo da variável armazenada: criamos uma interface.
+/*Sempre que criar um estado pra um array ou objeto, 
+  precisamos informar manualmente o tipo da variável armazenada: criamos uma interface.*/
 interface Item {
   id: number;
   title: string;
@@ -30,16 +29,12 @@ const CreatePoint = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [ufs, setUfs] = useState<string[]>([]);
   const [cities, setCities] = useState<string[]>([]);
-
-  // Posição inicial no mapa
-  const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);
-
+  const [initialPosition, setInitialPosition] = useState<[number, number]>([0, 0]);// Posição inicial no mapa
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    whatsapp: '',
+    whatsapp: ''
   })
-
   const [selectedUf, setSelectedUf] = useState('0'); // guarda a UF selecionada pelo user
   const [selectedCity, setSelectedCity] = useState('0'); // guarda a cidade selecionada pelo user
   const [selectedItems, setSelectedItems] = useState<number[]>([])  // Items selecionados pelo user. Armazena o id dos itens selecionados, por isso é um array numérico.
@@ -51,7 +46,6 @@ const CreatePoint = () => {
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(position => {
       const { latitude, longitude } = position.coords;
-
       setInitialPosition([latitude, longitude]);
     })
   }, []);
@@ -83,15 +77,15 @@ const CreatePoint = () => {
       });
   }, [selectedUf]);
 
+ 
+
   function handleSelectUf(event: ChangeEvent<HTMLSelectElement>) {
     const uf = event.target.value;
-
     setSelectedUf(uf);
   }
 
   function handleSelectCity(event: ChangeEvent<HTMLSelectElement>) {
     const city = event.target.value;
-
     setSelectedCity(city);
   }
 
@@ -104,7 +98,6 @@ const CreatePoint = () => {
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-
     setFormData({ ...formData, [name]: value })
   }
 
@@ -120,6 +113,7 @@ const CreatePoint = () => {
     }
   }
 
+
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
 
@@ -130,7 +124,6 @@ const CreatePoint = () => {
     const items = selectedItems;
 
     const data = new FormData();
-
 
     data.append('name', name );
     data.append('email', email );
@@ -144,12 +137,11 @@ const CreatePoint = () => {
     if (selectedFile) {
       data.append('image', selectedFile)
     }
-
     await api.post('points', data);
 
-    alert('Ponto de coleta criado');
-
-    history.push('/');
+    setTimeout(() => {
+      history.push('/Sucess');
+    }, 1000);
   }
 
   return (
@@ -175,18 +167,30 @@ const CreatePoint = () => {
 
           <div className="field">
             <label htmlFor="name">Nome da entidade</label>
-            <input type="text" name="name" id="name" onChange={handleInputChange} />
+            <input type="text" name="name" id="name"
+              required onChange={handleInputChange} 
+              value={formData.name}
+            />
           </div>
 
           <div className="field-group">
             <div className="field">
               <label htmlFor="email">E-mail</label>
-              <input type="email" name="email" id="email" onChange={handleInputChange} />
+              <input type="email" name="email" id="email" 
+                required onChange={handleInputChange} 
+                value={formData.email}
+              />
             </div>
 
             <div className="field">
               <label htmlFor="whatsapp"> Whatsapp </label>
-              <input placeholder="55 55 99999 9999" type="text" maxLength={13} minLength={13} name="whatsapp" id="whatsapp" onChange={handleInputChange} />
+              <input 
+                required 
+                type="text"  name="whatsapp" 
+                id="whatsapp" 
+                value={formData.whatsapp}
+                onChange={handleInputChange} 
+              />
             </div>
           </div>
 
@@ -231,7 +235,7 @@ const CreatePoint = () => {
 
         <fieldset>
           <legend>
-            <h2>Ítens de coleta</h2>
+            <h2>Itens de coleta</h2>
             <span>Selecione um ou mais itens abaixo</span>
           </legend>
 
@@ -250,9 +254,8 @@ const CreatePoint = () => {
           </ul>
         </fieldset>
 
-        <button type="submit">Cadastrar ponto de coleta</button>
+        <button type="submit" >Cadastrar ponto de coleta</button>
       </form>
-
     </div>
   );
 };
